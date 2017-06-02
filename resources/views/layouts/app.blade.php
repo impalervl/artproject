@@ -84,20 +84,54 @@
     <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="https://js.braintreegateway.com/js/braintree-2.30.0.min.js"></script>
+    <script src="https://js.braintreegateway.com/web/dropin/1.2.0/js/dropin.min.js"></script>
+    <!-- <script src="https://js.braintreegateway.com/js/braintree-2.32.1.min.js"></script> -->
+
+
 
 
     <script>
+
         $.ajax({
             url: '{{ url('braintree/token') }}'
-        }).done(function (response) {
-            braintree.setup(response.data.token, 'dropin', {
-                container: 'dropin-container',
-                onReady: function () {
-                    $('#payment-button').removeClass('hidden');
+        }).done(function (response){
+
+            var button = document.querySelector('#payment-button');
+            var form = document.querySelector('#payment-form');
+            var nonceInput = document.querySelector('#nonce');
+            var paypalEmail = document.querySelector('#paypalEmail');
+
+
+            braintree.dropin.create({
+                authorization: response.data.token,
+                container: '#dropin-container',
+                paypal: {
+                    flow: 'vault'
                 }
+            }, function (err, dropinInstance) {
+                if (err) {
+                    // Handle any errors that might've occurred when creating Drop-in
+                    console.error(err);
+                    return;
+                }
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+
+                    dropinInstance.requestPaymentMethod(function (err, payload) {
+                        if (err) {
+                            // Handle errors in requesting payment method
+                            return;
+                        }
+                        console.log(payload);
+                        // Send payload.nonce to your server
+                        paypalEmail.value = payload.details.email;
+                        nonceInput.value = payload.nonce;
+                        form.submit();
+                    });
+                });
             });
         });
+
     </script>
 
 </body>

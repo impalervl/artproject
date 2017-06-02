@@ -10,14 +10,17 @@ class SubscriptionsController extends Controller
 {
     public function store(Request $request)
     {
-        //dd($request->all());
-        // get the plan after submitting the form
+        $data = $request->all();
 
-        $plan = Plan::findOrFail($request->plan);
+        $email = $data['paypal_email'];
+
+        $plan = Plan::findOrFail($data['plan']);
 
         $user = Auth::user();
 
-        $user->newSubscription($plan->name, $plan->braintree_plan)->create($request->payment_method_nonce);
+        $user->newSubscription($plan->name, $plan->braintree_plan)->create($request->payment_method_nonce, [
+            'email' => $email,
+        ]);
 
 
         // redirect to home after a successful subscription
