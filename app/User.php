@@ -36,5 +36,35 @@ class User extends Authenticatable
         return $this->hasMany('App\Notification');
     }
 
+    public function pictures(){
+
+        return $this->hasMany('App\Picture');
+    }
+
+    public function followers()
+    {
+        return $this->belongsToMany(
+            self::class,
+            'follows',
+            'followee_id',
+            'follower_id'
+        );
+    }
+
+    public function followees()
+    {
+        return $this->belongsToMany(
+            self::class,
+            'follows',
+            'follower_id',
+            'followee_id'
+        );
+    }
+
+    public function watchlist(){
+
+        return $this->belongsToMany('App\Picture');
+    }
+
 
 }
