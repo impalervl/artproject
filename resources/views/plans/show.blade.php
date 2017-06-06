@@ -8,7 +8,7 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">{{ $plan->name }}</div>
-                    <div class="panel-body">
+                    <div class="panel-body" >
                         <form id="payment-form" action="{{ url('/subscribe') }}" method="post">
                             <div id="dropin-container"></div>
                             <input type="submit" class="btn btn-primary btn-flat" value="Purchase"></input>
