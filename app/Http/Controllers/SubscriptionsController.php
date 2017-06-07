@@ -23,10 +23,25 @@ class SubscriptionsController extends Controller
 
         $user = Auth::user();
 
-        $user->newSubscription($plan->slug, $plan->braintree_plan)->create($request->payment_method_nonce, [
-            'email' => $email,
-        ]);
+        if(!$user->newSubscription($plan->slug, $plan->braintree_plan)
+            ->create($request->payment_method_nonce, ['email' => $email,
+        ])){
+            return response()->json(['message'=>'try later'],500);
+        }
+        else{
 
+            if($plan->slug == 'large'){
+
+                $user->max_uploads = 50;
+            }
+            elseif($plan->slug == 'small'){
+
+                $user->max_uploads = 20;
+            }
+            $user->role = 'artist';
+        }
+
+        $user->save();
 
         // redirect to home after a successful subscription
         return redirect('home');

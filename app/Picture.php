@@ -15,6 +15,11 @@ class Picture extends Model
 
     public function watchlistUser(){
 
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany(
+            'App\User',
+            'picture_user',
+            'picture_id',
+            'user_id'
+        );
     }
 }

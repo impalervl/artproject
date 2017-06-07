@@ -31,11 +31,6 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function notifications(){
-
-        return $this->hasMany('App\Notification');
-    }
-
     public function pictures(){
 
         return $this->hasMany('App\Picture');
@@ -63,7 +58,12 @@ class User extends Authenticatable
 
     public function watchlist(){
 
-        return $this->belongsToMany('App\Picture');
+        return $this->belongsToMany(
+            'App\Picture',
+            'picture_user',
+            'user_id',
+            'picture_id'
+            );
     }
 
 

@@ -17,6 +17,9 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('role')->default('byer');
+            $table->integer('max_uploads')->unsigned()->default(0);
+            $table->integer('uploads')->unsigned()->default(0);
             $table->string('password');
             $table->string('braintree_id')->nullable();
             $table->string('paypal_email')->nullable();
