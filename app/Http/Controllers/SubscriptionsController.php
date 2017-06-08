@@ -47,17 +47,16 @@ class SubscriptionsController extends Controller
         return redirect('home');
     }
 
+    /**
+     *
+     */
     public function nextBilling(){
 
         $user = Auth::user();
 
-        $id = $user->id;
+        $subscriptions = $user->subscription($user->subscriptions->first()->name)->swap('professional_year');
 
-        $data['body'] = 'it is test notifiacation';
-
-        $result = $user->notifications()->create($data);
-
-        dd($id);
+        dd($subscriptions);
 
     }
 }

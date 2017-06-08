@@ -13,7 +13,7 @@
                                 <li class="list-group-item clearfix">
                                     <div class="pull-left">
                                         <h4>{{ $plan->name }}</h4>
-                                        <h4>${{ number_format($plan->cost, 2) }} monthly</h4>
+                                        <h4>${{ number_format($plan->cost, 2) }}</h4>
                                         @if ($plan->description)
                                             <p>{{ $plan->description }}</p>
                                         @endif

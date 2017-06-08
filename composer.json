@@ -16,7 +16,8 @@
         "guzzlehttp/guzzle": "~5.2",
         "paypal/rest-api-sdk-php": "*",
         "laravel/cashier-braintree": "~2.0",
-        "tymon/jwt-auth": "0.5.*"
+        "tymon/jwt-auth": "0.5.*",
+        "laravel/socialite": "~2.0"
     },
     "autoload": {
         "classmap": [
