@@ -18,6 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('role')->default('byer');
+            $table->tinyInteger('verified')->default(0);
+            $table->string('email_token')->nullable();
             $table->integer('max_uploads')->unsigned()->default(0);
             $table->integer('uploads')->unsigned()->default(0);
             $table->string('password');

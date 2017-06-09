@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ConfirmEmail;
 use App\Plan;
 use Braintree_Customer;
 use Braintree_Subscription;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Cashier\Subscription;
 use Braintree_SubscriptionSearch;
 use Illuminate\Http\Request;
@@ -52,11 +54,7 @@ class SubscriptionsController extends Controller
      */
     public function nextBilling(){
 
-        $user = Auth::user();
-
-        $subscriptions = $user->subscription($user->subscriptions->first()->name)->swap('professional_year');
-
-        dd($subscriptions);
+        phpinfo();
 
     }
 }

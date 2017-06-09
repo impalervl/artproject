@@ -19,6 +19,21 @@ Route::post('/picture/{picture}/watchlist','PictureController@addToWatchlist');
 
 Route::delete('/picture/{picture}/watchlist','PictureController@removeFromWatchlist');
 
+
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout');
+
+// Registration Routes...
+
+Route::post('/register', 'Auth\RegisterController@register');
+Route::get('/verifyemail/{token}', 'Auth\RegisterController@verify');
+
+// Password Reset Routes...
+
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+//Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
 Route::post('/signup','UserController@signUp');
 
 Route::post('/signin','UserController@signIn');

@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Jobs\SendVerificationEmail;
+use App\Mail\ConfirmEmail;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use JWTAuth;
 
 class RegisterController extends Controller
 {
@@ -66,6 +71,48 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'email_token' => base64_encode($data['email'])
         ]);
+    }
+
+    public function register(Request $request)
+    {
+
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required'
+        ]);
+
+        $user = $this->create($request->all());
+
+        $email = new ConfirmEmail($user);
+
+        //mail = $this->user->email
+        Mail::to('impalervl@gmail.com')->send($email);
+
+        return response()->json(['message'=>'mail sended, please verify your email'],200);
+
+    }
+
+    public function verify($token)
+    {
+        if($user = User::where('email_token', $token)->first()){
+
+            $user->verified = 1;
+
+            if ($user->save()) {
+
+                $user_token = JWTAuth::fromUser($user);
+
+                return response()->json(['message'=>'verification success','token'=>$user_token],200);
+            }
+            else{
+                return response()->json(['message'=>'Error with Db'],501);
+            }
+        }
+        else{
+            return response()->json(['message'=>'your verification token is wrong'],401);
+        }
     }
 }
