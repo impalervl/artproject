@@ -21,16 +21,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/plans', 'BrainTreeController@index');
 
-Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/plan/{plan}', 'BrainTreeController@show');
 
-    Route::get('/braintree/token', 'BrainTreeController@token');
+Route::get('/plan/{plan}', 'BrainTreeController@show');
 
-    Route::post('/subscribe', 'SubscriptionsController@store');
+Route::get('/braintree/token', 'BrainTreeController@token');
 
-    Route::get('/customer', 'SubscriptionsController@nextBilling');
-});
+Route::post('/subscribe', 'SubscriptionsController@store');
+
+Route::get('/customer', 'SubscriptionsController@nextBilling');
 
 Route::post(
     'braintree/webhook',

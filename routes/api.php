@@ -31,14 +31,15 @@ Route::get('/verifyemail/{token}', 'Auth\RegisterController@verify');
 // Password Reset Routes...
 
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+
 //Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::post('/signup','UserController@signUp');
-
-Route::post('/signin','UserController@signIn');
-
 Route::post('/logout','UserController@logOut');
+
+Route::get('/redirectfb', 'SocialAuthController@redirect');
+Route::get('/callback', 'SocialAuthController@callback');
 
 Route::get('/user/{user}','UserController@showProfile');
 

@@ -179,7 +179,9 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class
+        SammyK\LaravelFacebookSdk\LaravelFacebookSdkServiceProvider::class,
+
+
 
     ],
 
@@ -231,7 +233,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
-        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];

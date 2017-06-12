@@ -10,53 +10,6 @@ use JWTAuth;
 
 class UserController extends Controller
 {
-    public function signUp(Request $request){
-
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required'
-        ]);
-
-        $user = new User([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password)
-        ]);
-
-        if(!$user->save()){
-
-            return response()->json(['message' => 'server error'],501);
-        }
-
-        $credentials = $request->only('email', 'password');
-
-        $token = JWTAuth::attempt($credentials);
-
-        return response()->json(['message'=>'user created successfully', 'token' => $token], 200);
-    }
-
-    public function signIn(Request $request){
-
-        $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-
-        $credentials = $request->only('email', 'password');
-
-        $token = JWTAuth::attempt($credentials);
-
-        // all good so return the token
-        return response()->json(compact('token'));
-    }
-
-    public function logOut(){
-
-        JWTAuth::invalidate(JWTAuth::getToken());
-
-        return response()->json(['message'=>'successfully logeout']);
-    }
 
     public function showProfile(User $user){
 

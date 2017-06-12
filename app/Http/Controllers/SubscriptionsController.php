@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ConfirmEmail;
 use App\Plan;
+use App\User;
 use Braintree_Customer;
 use Braintree_Subscription;
 use Illuminate\Support\Facades\Mail;
@@ -23,7 +24,9 @@ class SubscriptionsController extends Controller
 
         $plan = Plan::findOrFail($data['plan']);
 
-        $user = Auth::user();
+        //$user = Auth::user();
+
+        $user = User::first();
 
         if(!$user->newSubscription($plan->slug, $plan->braintree_plan)
             ->create($request->payment_method_nonce, ['email' => $email,
@@ -54,7 +57,13 @@ class SubscriptionsController extends Controller
      */
     public function nextBilling(){
 
-        phpinfo();
+        $user = User::first();
+
+        Auth::login($user);
+
+        $plan = $user->subscription('professional-monthly')->swap('professional_year');
+
+        dd($plan);
 
     }
 }
