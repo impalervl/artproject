@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique()->nullable();
             $table->string('role')->default('byer');
             $table->tinyInteger('verified')->default(0);
+            $table->bigInteger('facebook_id')->nullable();
             $table->string('email_token')->nullable();
             $table->integer('max_uploads')->unsigned()->default(0);
             $table->integer('uploads')->unsigned()->default(0);

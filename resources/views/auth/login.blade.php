@@ -58,7 +58,12 @@
                                     Forgot Your Password?
                                 </a>
                             </div>
+                            <button id="btn-login" type="button" class="btn btn-primary btn-lg">
+                                <span> Login with Facebook</span>
+                            </button>
                         </div>
+
+
                     </form>
                 </div>
             </div>

@@ -31,7 +31,4 @@ Route::post('/subscribe', 'SubscriptionsController@store');
 
 Route::get('/customer', 'SubscriptionsController@nextBilling');
 
-Route::post(
-    'braintree/webhook',
-    '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
-);
+Route::post('braintree/webhook', 'WebhookController@handleWebhook');

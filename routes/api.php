@@ -36,10 +36,7 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::post('/logout','UserController@logOut');
-
-Route::get('/redirectfb', 'SocialAuthController@redirect');
-Route::get('/callback', 'SocialAuthController@callback');
+Route::post('/facebook/login', 'FacebookUser@store');
 
 Route::get('/user/{user}','UserController@showProfile');
 

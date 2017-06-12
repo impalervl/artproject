@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ConfirmEmail;
+use App\Notifications\SubscriptionNotification;
 use App\Plan;
 use App\User;
 use Braintree_Customer;
@@ -12,6 +13,7 @@ use Laravel\Cashier\Subscription;
 use Braintree_SubscriptionSearch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use function MongoDB\BSON\toJSON;
 
 
 class SubscriptionsController extends Controller
@@ -57,13 +59,23 @@ class SubscriptionsController extends Controller
      */
     public function nextBilling(){
 
-        $user = User::first();
+        $nativeSubscription = Subscription::where('braintree_id', '8t9bkg')->first();
+        $user = $nativeSubscription->user;
 
-        Auth::login($user);
+        $subscription = Braintree_Subscription::find('8t9bkg');
 
-        $plan = $user->subscription('professional-monthly')->swap('professional_year');
+        $braintreeSubscription['price'] = $subscription->price;
+        $braintreeSubscription['createdAt'] = $subscription->createdAt;
+        $braintreeSubscription['nextBillingDate'] = $subscription->nextBillingDate;
+        $braintreeSubscription['status'] = $subscription->status;
 
-        dd($plan);
+        dd($braintreeSubscription);
+
+        $subject = 'her';
+
+        $user->notify(new SubscriptionNotification($subject,$subscription,$user));
+
+        dd($user);
 
     }
 }
