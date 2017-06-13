@@ -71,7 +71,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'email_token' => base64_encode($data['email'])
+            'email_token' => base64_encode($data['email']),
+            'city_id' => $data['city_id']
         ]);
     }
 
@@ -81,7 +82,8 @@ class RegisterController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'password' => 'required'
+            'password' => 'required',
+            'city_id'=>'required'
         ]);
 
         $user = $this->create($request->all());

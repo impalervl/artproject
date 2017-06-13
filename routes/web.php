@@ -32,3 +32,5 @@ Route::post('/subscribe', 'SubscriptionsController@store');
 Route::get('/customer', 'SubscriptionsController@nextBilling');
 
 Route::post('braintree/webhook', 'WebhookController@handleWebhook');
+
+Route::get('/countries','CityCountryController@getCountries');

@@ -119,14 +119,14 @@ class WebhookController extends CashierController
         $braintreeSubscription['createdAt'] = $notification->subscription->createdAt;
         $braintreeSubscription['nextBillingDate'] = $notification->subscription->nextBillingDate;
         $braintreeSubscription['status'] = $notification->subscription->status;
+        $braintreeSubscription['transactions'] = $notification->subscription->transactions;
 
-        file_put_contents("/var/www/html/artproject/storage/logs/webhook.log", "went active  $message \n", FILE_APPEND);
 
         $subscription = Subscription::where('braintree_id', $notification->subscription->id)->first();
         $user = $subscription->user;
         $subject = 'Your subscribtion '.$subscription->name.' was started successfully';
 
-
+        file_put_contents("/var/www/html/artproject/storage/logs/webhook.log", "went active  $message \n", FILE_APPEND);
         $user->notify(new SubscriptionNotification($subject,$braintreeSubscription,$user));
 
         return new Response('Webhook Handled', 200);
@@ -135,13 +135,20 @@ class WebhookController extends CashierController
     public function handleSubscriptionChargedSuccessfully($notification)
     {
         $message = $notification->subscription->id;
-        file_put_contents("/var/www/html/artproject/storage/logs/webhook.log", "charged  $message \n", FILE_APPEND);
 
-        /*$subscription = Subscription::where('braintree_id', $notification->subscription->id)->first();
+
+        $braintreeSubscription['price'] = $notification->subscription->price;
+        $braintreeSubscription['createdAt'] = $notification->subscription->createdAt;
+        $braintreeSubscription['nextBillingDate'] = $notification->subscription->nextBillingDate;
+        $braintreeSubscription['status'] = $notification->subscription->status;
+        $braintreeSubscription['transactions'] = $notification->subscription->transactions;
+
+        $subscription = Subscription::where('braintree_id', $notification->subscription->id)->first();
         $user = $subscription->user;
-        $subject = 'Your subscribtion '.$subscription->name.' was started successfully';
+        $subject = 'Your subscribtion '.$subscription->name.' was charged successfully';
 
-        $user->notify(new SubscriptionNotification($subject,$notification,$user));*/
+        file_put_contents("/var/www/html/artproject/storage/logs/webhook.log", "charged  $message \n", FILE_APPEND);
+        $user->notify(new SubscriptionNotification($subject,$braintreeSubscription,$user));
 
         return new Response('Webhook Handled', 200);
     }

@@ -13,6 +13,11 @@ class Picture extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function city(){
+
+        $this->belongsTo('App\City');
+    }
+
     public function watchlistUser(){
 
         return $this->belongsToMany(

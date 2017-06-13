@@ -12,31 +12,21 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::resource('/picture','PictureController');
-
-Route::post('/picture/{picture}/watchlist','PictureController@addToWatchlist');
-
-Route::delete('/picture/{picture}/watchlist','PictureController@removeFromWatchlist');
-
+Route::post('/register', 'Auth\RegisterController@register');
+Route::get('register/verifyemail/{token}', 'Auth\RegisterController@verify');
 
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout');
 
-// Registration Routes...
-
-Route::post('/register', 'Auth\RegisterController@register');
-Route::get('/verifyemail/{token}', 'Auth\RegisterController@verify');
-
-// Password Reset Routes...
-
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-
 //Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
-
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::post('/facebook/login', 'FacebookUser@store');
+
+Route::get('/countries','CityCountryController@getCountries');
+
+Route::get('/cities','CityCountryController@getCities');
 
 Route::get('/user/{user}','UserController@showProfile');
 
@@ -49,3 +39,9 @@ Route::delete('/follow/{user}/','UserController@followUserCancel')->middleware('
 Route::get('/user/{user}/followers', 'UserController@getFollowers')->middleware('jwt.auth');
 
 Route::get('/user/{user}/followees','UserController@getFollowee')->middleware('jwt.auth');
+
+Route::resource('/picture','PictureController');
+
+Route::post('/picture/{picture}/watchlist','PictureController@addToWatchlist');
+
+Route::delete('/picture/{picture}/watchlist','PictureController@removeFromWatchlist');

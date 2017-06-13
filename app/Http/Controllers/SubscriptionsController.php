@@ -64,12 +64,12 @@ class SubscriptionsController extends Controller
 
         $subscription = Braintree_Subscription::find('8t9bkg');
 
+        dd($subscription);
+
         $braintreeSubscription['price'] = $subscription->price;
         $braintreeSubscription['createdAt'] = $subscription->createdAt;
         $braintreeSubscription['nextBillingDate'] = $subscription->nextBillingDate;
         $braintreeSubscription['status'] = $subscription->status;
-
-        dd($braintreeSubscription);
 
         $subject = 'her';
 
